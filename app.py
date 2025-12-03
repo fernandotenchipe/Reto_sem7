@@ -122,7 +122,7 @@ if not df.empty:
 
     # TAB 2
     with tab2:
-        st.subhead     er("Distribución de Duración (General)")
+        st.subheader("Distribución de Duración (General)")
         fig2 = px.histogram(
             df_global[df_global["duration_min"] <= 15],
             x="duration_min",
@@ -206,4 +206,5 @@ if not df.empty:
 
 else:
     st.warning("No hay datos o el archivo no se encuentra.")
+
 
