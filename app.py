@@ -89,7 +89,7 @@ if not df.empty:
 
     st.markdown("---")
 
-    tab2, tab1, tab3, tab4 = st.tabs([
+    tab1, tab2, tab3, tab4 = st.tabs([
         "Duración por Subgénero",
         "Distribución de Duración",
         "Popularidad por Subgénero",
@@ -206,5 +206,6 @@ if not df.empty:
 
 else:
     st.warning("No hay datos o el archivo no se encuentra.")
+
 
 
