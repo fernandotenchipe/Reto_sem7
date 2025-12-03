@@ -24,13 +24,25 @@ hr { border-color: #1DB954 !important; }
 st.markdown(f"<style>{custom_css}</style>", unsafe_allow_html=True)
 
 # ==========================================
+# 2.1. FUNCIÓN GLOBAL PARA ESTILO PLOTLY
+# ==========================================
+def apply_plotly_theme(fig):
+    fig.update_layout(
+        plot_bgcolor="rgba(0,0,0,0)",
+        paper_bgcolor="rgba(0,0,0,0)",
+        font=dict(color="white")
+    )
+    return fig
+
+# ==========================================
 # 3. CARGAR DATOS
 # ==========================================
 @st.cache_data
 def load_data():
     try:
         df = pd.read_csv("datasetspotify.csv")
-        if "Unnamed: 0" in df.columns: df = df.drop(columns=["Unnamed: 0"])
+        if "Unnamed: 0" in df.columns:
+            df = df.drop(columns=["Unnamed: 0"])
 
         df["artists"] = df["artists"].astype(str)
         df["track_genre"] = df["track_genre"].astype(str)
@@ -90,37 +102,63 @@ if not df.empty:
         col_a, col_b = st.columns(2)
         top_n = col_b.selectbox("Mostrar Top", [5, 10, 15], index=0, key="tab1_top")
 
-        data_g1 = (df_global.groupby("track_genre")["duration_min"]
-                   .mean().reset_index().sort_values("duration_min", ascending=False).head(top_n))
+        data_g1 = (
+            df_global.groupby("track_genre")["duration_min"]
+            .mean()
+            .reset_index()
+            .sort_values("duration_min", ascending=False)
+            .head(top_n)
+        )
 
-        fig1 = px.bar(data_g1, x="duration_min", y="track_genre", orientation='h', color_discrete_sequence=["#1DB954"])
-        fig1.update_layout(plot_bgcolor="rgba(0,0,0,0)", paper_bgcolor="rgba(0,0,0,0)", font=dict(color="white"))
+        fig1 = px.bar(
+            data_g1,
+            x="duration_min",
+            y="track_genre",
+            orientation='h',
+            color_discrete_sequence=["#1DB954"]
+        )
+        fig1 = apply_plotly_theme(fig1)
         st.plotly_chart(fig1, use_container_width=True)
 
     # TAB 2
     with tab2:
         st.subheader("Distribución de Duración (General)")
-        fig2 = px.histogram(df_global[df_global["duration_min"]<=15], x="duration_min", nbins=30, color_discrete_sequence=["#1DB954"])
-        fig2.update_layout(plot_bgcolor="rgba(0,0,0,0)", paper_bgcolor="rgba(0,0,0,0)", font=dict(color="white"))
+        fig2 = px.histogram(
+            df_global[df_global["duration_min"] <= 15],
+            x="duration_min",
+            nbins=30,
+            color_discrete_sequence=["#1DB954"]
+        )
+        fig2 = apply_plotly_theme(fig2)
         st.plotly_chart(fig2, use_container_width=True)
 
     # TAB 3
     with tab3:
         st.subheader("Popularidad por Subgénero (General)")
-        data_g3 = (df_global.groupby("track_genre")["popularity"]
-                   .mean().reset_index().sort_values("popularity", ascending=False).head(10))
+        data_g3 = (
+            df_global.groupby("track_genre")["popularity"]
+            .mean()
+            .reset_index()
+            .sort_values("popularity", ascending=False)
+            .head(10)
+        )
 
-        fig3 = px.line(data_g3, x="track_genre", y="popularity", markers=True, color_discrete_sequence=["#1DB954"])
-        fig3.update_layout(plot_bgcolor="rgba(0,0,0,0)", paper_bgcolor="rgba(0,0,0,0)", font=dict(color="white"))
+        fig3 = px.line(
+            data_g3,
+            x="track_genre",
+            y="popularity",
+            markers=True,
+            color_discrete_sequence=["#1DB954"]
+        )
+        fig3 = apply_plotly_theme(fig3)
         st.plotly_chart(fig3, use_container_width=True)
 
     # TAB 4
     with tab4:
         st.subheader("Impacto del Contenido Explícito en Popularidad")
 
-
         # --- CONTROLES LOCALES ---
-        col_filter_1, col_filter_2 = st.columns([3, 1]) # Una columna ancha y una vacía para espaciado
+        col_filter_1, col_filter_2 = st.columns([3, 1])  # Una columna ancha y una vacía para espaciado
 
         with col_filter_1:
             # Obtenemos géneros disponibles
@@ -129,7 +167,7 @@ if not df.empty:
                 "Selecciona los Subgéneros a comparar:",
                 options=available_genres,
                 default=[],
-                key="tab4_multiselect", # Importante poner key única si está dentro de tabs
+                key="tab4_multiselect",  # Importante poner key única si está dentro de tabs
                 help="Deja vacío para ver todos los géneros."
             )
 
@@ -142,7 +180,9 @@ if not df.empty:
         # --- GRÁFICA ---
         if not df_box.empty:
             df_box_plot = df_box.copy()
-            df_box_plot["explicit_label"] = df_box_plot["explicit"].map({True: "Explícito", False: "Apto (Clean)"})
+            df_box_plot["explicit_label"] = df_box_plot["explicit"].map(
+                {True: "Explícito", False: "Apto (Clean)"}
+            )
 
             fig4 = px.box(
                 df_box_plot,
@@ -153,14 +193,13 @@ if not df.empty:
                 color_discrete_map={"Explícito": "#1DB954", "Apto (Clean)": "#B3B3B3"}
             )
 
+            fig4 = apply_plotly_theme(fig4)
             fig4.update_layout(
-                plot_bgcolor="rgba(0,0,0,0)",
-                paper_bgcolor="rgba(0,0,0,0)",
-                font=dict(color="white"),
                 xaxis_title="Tipo de Contenido",
                 yaxis_title="Popularidad (0-100)",
                 showlegend=False
             )
+
             st.plotly_chart(fig4, use_container_width=True)
         else:
             st.warning("No hay datos que coincidan con los filtros seleccionados.")
