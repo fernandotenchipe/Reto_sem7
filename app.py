@@ -89,7 +89,7 @@ if not df.empty:
 
     st.markdown("---")
 
-    tab1, tab2, tab3, tab4 = st.tabs([
+    tab2, tab1, tab3, tab4 = st.tabs([
         "Duración por Subgénero",
         "Distribución de Duración",
         "Popularidad por Subgénero",
@@ -122,7 +122,7 @@ if not df.empty:
 
     # TAB 2
     with tab2:
-        st.subheader("Distribución de Duración (General)")
+        st.subhead     er("Distribución de Duración (General)")
         fig2 = px.histogram(
             df_global[df_global["duration_min"] <= 15],
             x="duration_min",
@@ -206,3 +206,4 @@ if not df.empty:
 
 else:
     st.warning("No hay datos o el archivo no se encuentra.")
+
