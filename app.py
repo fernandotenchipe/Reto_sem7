@@ -209,7 +209,7 @@ if not df.empty:
 
         st.subheader("Popularidad")
         col_a2, col_b2 = st.columns(2)
-        top_n2 = col_b2.selectbox("Mostrar Top", [5, 10, 15], index=0, key="tab1_top")
+        top_n2 = col_b2.selectbox("Mostrar Top", [5, 10, 15], index=0, key="tab5_top")
         
         data_g5 = (
             df_global.groupby("track_genre")["popularity"]
@@ -232,6 +232,7 @@ if not df.empty:
 
 else:
     st.warning("No hay datos o el archivo no se encuentra.")
+
 
 
 
