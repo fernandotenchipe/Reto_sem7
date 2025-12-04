@@ -231,22 +231,11 @@ if not df.empty:
         st.plotly_chart(fig5, use_container_width=True)
 
         
-        col_a3, col_b3 = st.columns(2)
-        top_n3 = col_b3.selectbox("Seleccionar", ["track_name"], index=0, key="tab6_song")
-            
-        data_g6 = (
-            df_global["track_name"]
-            .reset_index()
-            .sort_values("track_name", ascending=False)
-            .head(top_n2)
-        )
-
-        st.write("La canción: ", data_g6, " tiene una energia de: ")
-        
         
 
 else:
     st.warning("No hay datos o el archivo no se encuentra.")
+
 
 
 
