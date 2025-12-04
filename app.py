@@ -89,11 +89,12 @@ if not df.empty:
 
     st.markdown("---")
 
-    tab1, tab2, tab3, tab4 = st.tabs([
+    tab1, tab2, tab3, tab4, tab5 = st.tabs([
         "Duración por Subgénero",
         "Distribución de Duración",
         "Popularidad por Subgénero",
-        "Impacto Explícito"
+        "Impacto Explícito",
+        "Resumen"
     ])
 
     # TAB 1
@@ -203,9 +204,35 @@ if not df.empty:
             st.plotly_chart(fig4, use_container_width=True)
         else:
             st.warning("No hay datos que coincidan con los filtros seleccionados.")
+            
+    with tab5:
+
+        st.subheader("Popularidad")
+        col_a, col_b = st.columns(2)
+        top_n = col_b.selectbox("Mostrar Top", [5, 10, 15], index=0, key="tab1_top")
+        
+        data_g5 = (
+            df_global.groupby("track_genre")["popularity"]
+            .mean()
+            .reset_index()
+            .sort_values("popula`rity", ascending=False)
+            .head(top_n)
+        )
+
+        fig5 = px.bar(
+            data_g5,
+            x="popularity",
+            y="track_genre",
+            orientation='h',
+            color_discrete_sequence=["#1DB954"]
+        )
+        fig5 = apply_plotly_theme(fig5)
+        st.plotly_chart(fig5, use_container_width=True)
+        
 
 else:
     st.warning("No hay datos o el archivo no se encuentra.")
+
 
 
 
