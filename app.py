@@ -230,13 +230,14 @@ if not df.empty:
         st.plotly_chart(fig5, use_container_width=True)
 
 
-        df_art = px.df["artists"].data.query("artists == Jason Mraz & artists == Brandi Carlile")
+        df_art = px.df_global.data.query("artists == Jason Mraz & artists == Brandi Carlile")
         fig2 = px.pie(df_art, values='danceability', names='artists', title='Comparacion')
         fig2.show()
         
 
 else:
     st.warning("No hay datos o el archivo no se encuentra.")
+
 
 
 
