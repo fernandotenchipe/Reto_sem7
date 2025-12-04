@@ -27,12 +27,12 @@ st.markdown(f"<style>{custom_css}</style>", unsafe_allow_html=True)
 # 2.1. FUNCIÓN GLOBAL PARA ESTILO PLOTLY
 # ==========================================
 def apply_plotly_theme(fig):
-fig.update_layout(
-    plot_bgcolor="rgba(0,0,0,0)",
-    paper_bgcolor="rgba(0,0,0,0)",
-    font=dict(color="white")
-)
-return fig
+    fig.update_layout(
+        plot_bgcolor="rgba(0,0,0,0)",
+        paper_bgcolor="rgba(0,0,0,0)",
+        font=dict(color="white")
+    )
+    return fig
 
 # ==========================================
 # 3. CARGAR DATOS
@@ -235,6 +235,7 @@ with tab5:
 
 else:
 st.warning("No hay datos o el archivo no se encuentra.")  
+
 
 
 
