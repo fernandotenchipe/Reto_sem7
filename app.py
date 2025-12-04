@@ -167,7 +167,7 @@ if not df.empty:
                 "Selecciona los Subgéneros a comparar:",
                 options=available_genres,
                 default=[],
-                key="tab4_multiselect",  # Importante poner key única si está dentro de tabs
+                key="tab4_multiselect",  
                 help="Deja vacío para ver todos los géneros."
             )
 
@@ -206,6 +206,7 @@ if not df.empty:
 
 else:
     st.warning("No hay datos o el archivo no se encuentra.")
+
 
 
 
