@@ -208,15 +208,15 @@ if not df.empty:
     with tab5:
 
         st.subheader("Popularidad")
-        col_a, col_b = st.columns(2)
-        top_n = col_b.selectbox("Mostrar Top", [5, 10, 15], index=0, key="tab1_top")
+        col_a2, col_b2 = st.columns(2)
+        top_n2 = col_b2.selectbox("Mostrar Top", [5, 10, 15], index=0, key="tab1_top")
         
         data_g5 = (
             df_global.groupby("track_genre")["popularity"]
             .mean()
             .reset_index()
             .sort_values("popula`rity", ascending=False)
-            .head(top_n)
+            .head(top_n2)
         )
 
         fig5 = px.bar(
@@ -232,6 +232,7 @@ if not df.empty:
 
 else:
     st.warning("No hay datos o el archivo no se encuentra.")
+
 
 
 
