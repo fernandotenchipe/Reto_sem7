@@ -215,7 +215,7 @@ if not df.empty:
             df_global.groupby("track_genre")["popularity"]
             .mean()
             .reset_index()
-            .sort_values("popula`rity", ascending=False)
+            .sort_values("popularity", ascending=False)
             .head(top_n2)
         )
 
@@ -232,6 +232,7 @@ if not df.empty:
 
 else:
     st.warning("No hay datos o el archivo no se encuentra.")
+
 
 
 
