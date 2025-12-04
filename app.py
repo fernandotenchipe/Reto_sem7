@@ -47,6 +47,7 @@ def load_data():
         df["artists"] = df["artists"].astype(str)
         df["track_genre"] = df["track_genre"].astype(str)
         df["duration_min"] = df["duration_ms"] / 60000
+        df["track_name"] = df["track_name"].astype(str)
 
         # Filtro base: Solo géneros que contengan "pop"
         df = df[df["track_genre"].str.contains("pop", case=False, na=False)].copy()
@@ -229,14 +230,23 @@ if not df.empty:
         fig5 = apply_plotly_theme(fig5)
         st.plotly_chart(fig5, use_container_width=True)
 
+        col_a3, col_b3 = st.columns(2)
+            top_n2 = col_b2.selectbox("Seleccionar", ["track_name"], index=0, key="tab6_song")
+            
+            data_g6 = (
+                df_global["track_name"]
+                .reset_index()
+                .sort_values("track_name", ascending=False)
+                .head(top_n2)
+            )
 
-        df_art = px.data.gapminder().query("artists == Jason Mraz & artists == Brandi Carlile")
-        fig2 = px.pie(df_art, values='danceability', names='artists', title='Comparacion')
-        fig2.show()
+    st.write("La canción: ", data_g6, " tiene una energia de: ")
+        
         
 
 else:
     st.warning("No hay datos o el archivo no se encuentra.")
+
 
 
 
